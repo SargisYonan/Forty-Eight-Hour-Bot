@@ -32,7 +32,7 @@ class Task():
 
 	def run_task(self):
 		self.task_ptr()
-		
+
 '''
 def hole_event():
 	print 'shoot ball'
