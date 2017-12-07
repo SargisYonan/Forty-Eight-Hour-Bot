@@ -1,18 +1,18 @@
 events_list = []
 task_list = []
 
-def framework_post_event(event):
-	events_list.append(event)
+def framework_post_event(event) : #function to add event strings to a list
+ 	events_list.append(event) 
 
 ## used by the Task Obj instance creator
-def framework_add_event_checker(task):
+def framework_add_task(task): #function to add event checker strings to a list
 	task_list.append(task)
 
-def start_framework():
+def start_framework(): #for loop through the task_list run through event list f
 	while(True):
-		for task in task_list:
+		for task in task_list: 
 			print 'Running Task: ' + task.name + '\n'
-			task.run_task()
+			task.task() 
 
 			# run all posted events from the last check if they exist
 			for event in events_list:
@@ -25,13 +25,8 @@ class Task():
 		self.name = name
 		self.task_ptr = task_ptr
 
-		framework_add_event_checker(self)
+		framework_add_task(self)
 
-	def print_my_name(self):
-		print self.name
-
-	def run_task(self):
-		self.task_ptr()
 		
 '''
 def hole_event():
