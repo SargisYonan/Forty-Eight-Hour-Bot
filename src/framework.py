@@ -1,3 +1,5 @@
+import hsm
+
 events_list = []
 task_list = []
 
@@ -25,7 +27,7 @@ def start_framework(): #for loop through the task_list run through event list f
                 if framework_debug:
                     print ('Entering event')
 
-                hsm(event)
+                hsm.hsm(event)
                 events_list.remove(event)
 
 
