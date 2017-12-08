@@ -20,23 +20,23 @@ def bottomSliceThresholder(grayimg_in):
     threshedimg_out = cv2.threshold(grayimg_in,thresh,255,cv2.THRESH_BINARY)[1]
     return threshedimg_out
 
-def checkForTargetByBlob(threshed_in):
+def checkForTargetByBlob(threshed_in, img_scale):
     #set up a blob detector:
     # Setup SimpleBlobDetector parameters.
     params = cv2.SimpleBlobDetector_Params()
     # Change thresholds
     params.minThreshold = 1
-    params.maxThreshold = 200
+    params.maxThreshold = 1000
     # Filter by Area.
     params.filterByArea =True
-    params.minArea = 50
-    params.maxArea = 2500
+    params.minArea = img_scale * 2500
+    params.maxArea = 1000000 * img_scale
     # Filter by Circularity
     params.filterByCircularity = True
-    params.minCircularity = 0.2
+    params.minCircularity = 0.3
     # Filter by Convexity
     params.filterByConvexity = True
-    params.minConvexity = 0.87
+    params.minConvexity = .3
         # Filter by Inertia
     params.filterByInertia = False
     params.minInertiaRatio = 0.75
@@ -48,19 +48,25 @@ def checkForTargetByBlob(threshed_in):
 
 
 filenames = glob.glob('targets/*.jpg')
-
+img_scale = 0.5
 
 for fname in filenames:
-    img = cv2.imread(fname, 0) # 0 argument opens as gray
+    rawimg = cv2.imread(fname, 0) # 0 argument opens as gray
+    img = cv2.resize(rawimg, (0,0), fx=img_scale, fy=img_scale) 
+
     threshed = bottomSliceThresholder(img)
-    keypts = checkForTargetByBlob(threshed)
-    
+    keypts = checkForTargetByBlob(threshed, img_scale)
+
     for keypt in keypts:
         theta = np.concatenate((np.linspace(0, 2*np.pi, 100), [0]))
         x,y = keypt.pt
         r = keypt.size
         print(x,y,r)
         plt.plot(x + r*np.cos(theta), y+r*np.sin(theta), 'r')
+        plt.imshow(threshed, cmap = 'gray', interpolation = 'bicubic')
+        
+        #plt.imshow(img, cmap = 'gray', interpolation = 'bicubic')
+        plt.show()
 
 
 
