@@ -185,7 +185,7 @@ def checkForTargetByBlob(threshed_in):
     params.maxArea = 2500
     # Filter by Circularity
     params.filterByCircularity = True
-    params.minCircularity = 0.2
+    params.minCircularity = 0.5
     # Filter by Convexity
     params.filterByConvexity = True
     params.minConvexity = 0.87
