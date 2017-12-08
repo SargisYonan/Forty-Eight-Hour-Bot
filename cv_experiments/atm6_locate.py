@@ -29,14 +29,14 @@ def checkForTargetByBlob(threshed_in, img_scale):
     params.maxThreshold = 1000
     # Filter by Area.
     params.filterByArea =True
-    params.minArea = img_scale * 5000
-    params.maxArea = 100000 * img_scale
+    params.minArea = 3000
+    params.maxArea = 9000
     # Filter by Circularity
     params.filterByCircularity = True
     params.minCircularity = 0.3
     # Filter by Convexity
     params.filterByConvexity = True
-    params.minConvexity = .3
+    params.minConvexity = .5
         # Filter by Inertia
     params.filterByInertia = False
     params.minInertiaRatio = 0.75
