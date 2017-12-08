@@ -2,7 +2,7 @@ import hsm
 
 events_list = []
 task_list = []
-framework_debug = False
+framework_debug = True
 class Event:
     def __init__(self, name, params):
         self.name = name
@@ -25,7 +25,7 @@ def start_framework(): #for loop through the task_list run through event list f
             # run all posted events from the last check if they exist
             for event in events_list:
                 if framework_debug:
-                    print ('Entering event')
+                    print ('Entering event: ' + event.name)
 
                 hsm.hsm(event)
                 events_list.remove(event)

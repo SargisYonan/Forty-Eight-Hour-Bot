@@ -12,13 +12,13 @@ def switch_init():
 def switch_event_checker():
     params = wiringpi.digitalRead(reset_switch)
     if ((params != last_state) and (params == 1)):
-    	post_event = framework.Event('RESET_HSM', params)
-    	framework.framework_post_event(post_event)
+        post_event = framework.Event('RESET_HSM', params)
+        framework.framework_post_event(post_event)
 
     elif ((params != last_state) and (params == 0)):
-    	post_event = framework.Event('STOP_HSM', params)
-    	framework.framework_post_event(post_event)
+        post_event = framework.Event('STOP_HSM', params)
+        framework.framework_post_event(post_event)
 
     else:
-    	return
+        return
 

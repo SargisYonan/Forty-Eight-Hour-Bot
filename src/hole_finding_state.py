@@ -57,17 +57,17 @@ class AligningState(State):
         self.name = 'Aligning State'
 
     def run(self, event):
-        (x, y, r) = event.params
-        pos_dif = x - camera.center_pixel
-        if (math.abs(pos_dif) > hole_epsilon):
-            if (pos_dif > 0):
-                motors.move_left()
-            else:
-                motors.move_right()
+        if (event.name == HOLE_RIGHT):
+            motors.rotate_clockwise()
+        elif (event.name == HOLE_LEFT):
+            motors.rotate_counter_clockwise()
+        elif (event.name == HOLE_CLOSE):
+            motors.drive_forward()
+        elif (event.name == HOLE_CENTER):
+            motors.stop_motors()
+            return hsm.STATE_COMPLETE
         else:
-            return HOLE_CLOSE
-
-        return hsm.STATE_NOT_COMPLETE
+            return hsm.STATE_NOT_COMPLETE
 
     def entry(self, event):
         return
