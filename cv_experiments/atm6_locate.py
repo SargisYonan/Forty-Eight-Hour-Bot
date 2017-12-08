@@ -71,7 +71,7 @@ img_scale = 0.5
 for fname in filenames:
     rawimg = cv2.imread(fname, 0) # 0 argument opens as gray
     img = cv2.resize(rawimg, (0,0), fx=img_scale, fy=img_scale) 
-    print find_hole(img)
+    print(find_hole(img))
     '''
     threshed = bottomSliceThresholder(img)
     keypts = checkForTargetByBlob(threshed, img_scale)
