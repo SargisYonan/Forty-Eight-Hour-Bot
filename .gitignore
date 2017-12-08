@@ -1,3 +1,9 @@
+# LaTeX
+*.aux
+*.spl
+*.log
+# MATLAB bullshit
+*.m~
 # Prerequisites
 *.d
 
@@ -50,3 +56,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+*.DS_Store
+*.ds_store

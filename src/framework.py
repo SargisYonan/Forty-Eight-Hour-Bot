@@ -26,8 +26,6 @@ class Task():
 		self.task_ptr = task_ptr
 
 		framework_add_task(self)
-
-		
 '''
 def hole_event():
 	print 'shoot ball'
