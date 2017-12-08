@@ -29,8 +29,8 @@ def checkForTargetByBlob(threshed_in, img_scale):
     params.maxThreshold = 1000
     # Filter by Area.
     params.filterByArea =True
-    params.minArea = img_scale * 2500
-    params.maxArea = 1000000 * img_scale
+    params.minArea = img_scale * 5000
+    params.maxArea = 100000 * img_scale
     # Filter by Circularity
     params.filterByCircularity = True
     params.minCircularity = 0.3
@@ -41,11 +41,28 @@ def checkForTargetByBlob(threshed_in, img_scale):
     params.filterByInertia = False
     params.minInertiaRatio = 0.75
     
-    
     detector = cv2.SimpleBlobDetector_create(params)
     keypts = detector.detect(threshed_in)
     return keypts
 
+def find_hole(gray_img):
+    rawimg = cv2.imread(fname, 0) # 0 argument opens as gray
+    img = cv2.resize(rawimg, (0,0), fx=img_scale, fy=img_scale) 
+
+    threshed = bottomSliceThresholder(img)
+    keypts = checkForTargetByBlob(threshed, img_scale)
+    if len(keypts) > 0:
+        keypt = keypts[0] # we're grabbing the first hole found
+
+
+        theta = np.concatenate((np.linspace(0, 2*np.pi, 100), [0]))
+        x,y = keypt.pt
+        r = keypt.size
+        print(x,y,r)
+        plt.plot(x + r*np.cos(theta), y+r*np.sin(theta), 'r')
+        plt.plot(x, y)
+        plt.imshow(threshed, cmap = 'gray', interpolation = 'bicubic')
+        plt.show()
 
 filenames = glob.glob('targets/*.jpg')
 img_scale = 0.5
@@ -53,7 +70,8 @@ img_scale = 0.5
 for fname in filenames:
     rawimg = cv2.imread(fname, 0) # 0 argument opens as gray
     img = cv2.resize(rawimg, (0,0), fx=img_scale, fy=img_scale) 
-
+    find_hole(img)
+    '''
     threshed = bottomSliceThresholder(img)
     keypts = checkForTargetByBlob(threshed, img_scale)
 
@@ -63,24 +81,12 @@ for fname in filenames:
         r = keypt.size
         print(x,y,r)
         plt.plot(x + r*np.cos(theta), y+r*np.sin(theta), 'r')
+        plt.plot(x, y)
         plt.imshow(threshed, cmap = 'gray', interpolation = 'bicubic')
         
         #plt.imshow(img, cmap = 'gray', interpolation = 'bicubic')
         plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    '''
 
 
 
