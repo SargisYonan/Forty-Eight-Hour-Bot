@@ -1,4 +1,4 @@
-import framework.py
+import framework
 import time
 winch_timer = 5 # 5 seconds
 servo_wait_timer = 2 # 1 second
