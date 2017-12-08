@@ -4,7 +4,7 @@ import hole_service
 
 ## place all event checker framwork code here
 switch_checker = framework.Task('Switch Checker', switch.switch_event_checker)
-hole_checker = framework.Task('Hole Checker', switch.hole_event_checker)
+hole_checker = framework.Task('Hole Checker', hole_service.hole_event_checker)
 
 ## place all event checker system level init calls here
 switch.switch_init()
