@@ -25,31 +25,9 @@ class IdlingState(State):
     def exit(self, event):
         return
 
-class FieldOrientingState(State):
-    def __init__(self):
-        self.name = 'Field Orienting State'
-
-    def run(self, event):
-        return
-    def entry(self, event):
-        return
-    def exit(self, event):
-        return
-
 class HoleScanningState(State):
     def __init__(self):
         self.name = 'Hole Scanning State'
-
-    def run(self, event):
-        return
-    def entry(self, event):
-        return
-    def exit(self, event):
-        return
-
-class HoleAligningState(State):
-    def __init__(self):
-        self.name = 'Hole Aligning State'
 
     def run(self, event):
         return
@@ -74,9 +52,7 @@ class GeorgeHSM(State):
         self.name = 'George HSM'
 
         self.idling_state = IdlingState()
-        self.field_orienting_state = FieldOrientingState()       
         self.hole_scanning_state = HoleScanningState()
-        self.hole_aligning_state= HoleAligningState()
         self.ball_shooting_state= BallShootingState()
 
         self.initial_state = self.idling_state
@@ -90,27 +66,17 @@ class GeorgeHSM(State):
         elif (self.current_state == self.idling_state):
             ret = self.idling_state.run(event)
             if ret == STATE_COMPLETE:
-                self.next_state = self.field_orienting_state
-
-        elif (self.current_state == self.field_orienting_state):
-            ret = self.field_orienting_state.run(event) 
-            if ret == STATE_COMPLETE:
                 self.next_state = self.hole_scanning_state
 
         elif (self.current_state == self.hole_scanning_state):
             ret = self.hole_scanning_state.run(event)
-            if ret == STATE_COMPLETE:
-                self.next_state = self.hole_aligning_state
-
-        elif (self.current_state == self.hole_aligning_state):
-            ret = self.hole_aligning_state.run(event)
             if ret == STATE_COMPLETE:
                 self.next_state = self.ball_shooting_state
 
         elif (self.current_state == self.ball_shooting_state):
             ret = self.ball_shooting_state.run(event)
             if ret == STATE_COMPLETE:
-                self.next_state = self.field_orienting_state
+                self.next_state = self.hole_scanning_state
 
         # if a transition has occured
         if self.next_state != self.current_state:
