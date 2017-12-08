@@ -67,11 +67,11 @@ def find_hole(gray_img):
 	else:
 		return (-1, -1, -1)
 
-camera_snapper = None
+camera_snapper = camera_service.cameraService()
 img_scale = 0.5
 
 def init():
-	camera_snapper = camera_service.cameraService()
+    return
 
 hole_epsilon = 50
 hole_close_threshold = 200
