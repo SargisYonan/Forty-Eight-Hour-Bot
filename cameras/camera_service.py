@@ -14,20 +14,20 @@ class Camera:
 
 	def startVideo(self, timeout=10):
 		"""attempt to open video capture"""
-		startTime = time.clock()
+		startTime = time.time()
 		while True:	
 			self.video_capture = cv2.VideoCapture(self.cam_id)
 			if self.video_capture.isOpened():
 				print("opened stream for camera"+str(self.cam_id))
 				break
 			else:
-				if startTime + timeout > time.clock():
+				if startTime + timeout > time.time():
 					raise(Exception("Could not initialize camera"+str(self.cam_id)))
 
 
 class cameraService:
 	""" a module that maintains the cameras (reboots them if junk fails)"""
-	def __init__(self,retry = False):
+	def __init__(self, timeout = 0):
 		#check with os about available devices:
 		self.avail_cameras = []
 		for dev in os.listdir("/dev/"):
@@ -40,27 +40,26 @@ class cameraService:
 		self.cam_dict = {"front":None, "down":None}
 
 		#now start up these cameras!	
-		self.initCamera("front", retry)
-		self.initCamera("down", retry)
+		self.initCamera("front", timeout)
+		self.initCamera("down", timeout)
 
-	def initCamera(self, cam_name, retry = False):
+	def initCamera(self, cam_name, timeout = 0):
+		"""this method attempts to start a video capture on the chosen camera"""
 		if cam_name == "front":
 			cam_id = self.avail_cameras[0]
 		if cam_name == "down":
 			cam_id = self.avail_cameras[1]
-		while True:
-			cam	= Camera(cam_id, cam_name)
-			try:
-				cam.startVideo()
-			except Exception as e:
-				if retry:
-					continue
-				raise(e)
-						
-			self.cam_dict[cam_name] = cam 
-			print("started video capture for camera",cam_name)
 
-	def snap(self, camname):
+		#now, attempt to attach the camera:
+		print("attaching camera",cam_id,"to",cam_name)
+		cam = Camera(cam_id,cam_name)
+		cam.startVideo()
+
+		#if it worked:
+		self.cam_dict[cam_name] = cam 
+		print("started video capture for camera",cam_name)
+
+	def snap(self, cam_name):
 		"""attempt a snapshot, enter "front" or "down" to indicate which camera you like"""
 		cam = self.cam_dict[cam_name]
 
@@ -71,7 +70,7 @@ class cameraService:
 		retval, img = cam.video_capture.read()
 		if retval:
 			#first, make sure that the image exists!
-			if any( [dim == 0 for dim in img.shape] ):
+			if None in [dim == 0 for dim in img.shape].any() :
 				raise(Exception("snapped an empty image, you should restart the camera"))
 			else:
 				return img
@@ -79,7 +78,7 @@ class cameraService:
 			return False
 
 if __name__=="__main__":
-		cs = cameraService(retry = True)		
+		cs = cameraService(timeout = 5)		
 		img = cs.snap("front")
 		if img:
 			cv2.write("front_img.png")
@@ -97,18 +96,18 @@ while True:
 		if all( [camera.isOpened() for camera in cameras]):
 				break
 
-firstTime = time.clock()
-lastTime = time.clock()
+firstTime = time.time()
+lastTime = time.time()
 i = 0
 breakme = 100
 
 while i<3:
-	if lastTime + 5< time.clock():
+	if lastTime + 5< time.time():
 			break
 
-	if lastTime + .1 < time.clock():
+	if lastTime + .1 < time.time():
 		continue
-	lastTime = time.clock()
+	lastTime = time.time()
 
 	for j,camera in enumerate(cameras):
 		retval, img = camera.read()
