@@ -15,7 +15,7 @@ class IdlingState(State):
     def run(self, event):
         if (event.name == 'RESET_HSM'):
             return STATE_COMPLETE
-        else
+        else:
             return STATE_NOT_COMPLETE
 
     def entry(self, event):
@@ -61,12 +61,12 @@ class HoleFindingState(State):
             self.current_state = self.next_state
             self.current_state.entry(event)
 
-    def entry(self):
+    def entry(self, event):
         self.current_state = self.initial_state
         self.next_state = self.initial_state
         return
 
-    def exit(self):
+    def exit(self, event):
         motors_stop_all()
         return
 
@@ -118,7 +118,7 @@ class GeorgeHSM(State):
             self.current_state = self.next_state
             self.current_state.entry(event)
 
-    def entry(self):
+    def entry(self, event):
         self.current_state = self.initial_state
         self.next_state = self.initial_state
         return

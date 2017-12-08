@@ -36,7 +36,7 @@ class MotorController:
         #now, figure out the pwm:
         if abs(speed) > 100:
             raise("Speed must be between -100 and 100!")
-        pwm = int(  abs(speed)/100 * 255)
+        pwm = int(  1.0*abs(speed)/100 * 255)
         motor.setSpeed(pwm)
         #motor.run(Raspi_MotorHAT.RELEASE)
         
@@ -64,6 +64,7 @@ class MotorController:
         self.set_motor_speed(arm, 0)
 
     def release_ball():
+        return
 
     def move_left():
         self.set_motor_speed(left_wheel, -1 * drive_forward_speed)

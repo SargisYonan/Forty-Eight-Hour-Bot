@@ -2,7 +2,7 @@ import hsm
 
 events_list = []
 task_list = []
-
+framework_debug = False
 class Event:
     def __init__(self, name, params):
         self.name = name
@@ -19,7 +19,7 @@ def start_framework(): #for loop through the task_list run through event list f
     while(True):
         for task in task_list: 
             if framework_debug:
-                print 'Running Task: ' + task.name + '\n'
+                print ('Running Task: ' + task.name + '\n')
             task.task() 
 
             # run all posted events from the last check if they exist
@@ -32,9 +32,9 @@ def start_framework(): #for loop through the task_list run through event list f
 
 
 class Task():
-    def __init__(self, name, task_ptr):
+    def __init__(self, name, task):
         self.name = name
-        self.task_ptr = task_ptr
+        self.task = task
 
         framework_add_task(self)
 '''
