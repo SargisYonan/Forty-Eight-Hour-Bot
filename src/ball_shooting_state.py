@@ -1,18 +1,20 @@
 import framework
 import time
-winch_timer = 5 # 5 seconds
+import motors
+
+wheel_timer = 5 # 5 seconds
 servo_wait_timer = 2 # 1 second
 class State:
     def __init__(self):
         pass
 
-class TurningOnWinch(State):
+class TurningOnMotor(State):
     def __init__(self):
-        self.name = 'Turning on Winch'
+        self.name = 'Turning on Motor'
     def run(self, event):
         #turn on motor using stepper motor module
-        timer.sleep(winch_timer) #start timer(winch_timer)
-        return 'winchtimerexpired'
+        timer.sleep(wheel_timer) #start timer(winch_timer)
+        return 'motortimerexpired'
     def entry(self, event):
         return 0
     def exit(self, event):
@@ -32,11 +34,11 @@ class UnloadingBall(State):
 
 class RetractWinch(State):
     def __init__(self):
-        self.name = 'Retracting Winch'
+        self.name = 'Retracting Motor'
     def run(self, event):
         #turn on motor in reverse direction using stepper motor module
-        timer.sleep(winch_timer) #start timer(winch_timer)
-        return 'winchtimerexpired'
+        timer.sleep(wheel_timer) #start timer(winch_timer)
+        return 'motortimerexpired'
     def entry(self, event):
         return 0
     def exit(self, event):
@@ -45,9 +47,9 @@ class BallShootingState(State):
     def __init__(self):
         self.name = 'BallShootingState'
 
-        self.turningonwinchstate = TurningOnWinch()
+        self.turningonmotorstate = TurningOnMotor()
         self.unloadingballstate = UnloadingBall()       
-        self.retractwinchstate= RetractWinch()
+        self.retractmotorstate= RetractMotor()
         
         self.initial_state = self.state_one
         self.current_state = self.initial_state
