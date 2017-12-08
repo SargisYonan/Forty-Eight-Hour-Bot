@@ -1,7 +1,7 @@
 import framework.py
-winch_timer = 5000 # 5 seconds
-servo_wait_timer = 1000 # 1 second
-
+import time
+winch_timer = 5 # 5 seconds
+servo_wait_timer = 2 # 1 second
 class State:
     def __init__(self):
         pass
@@ -11,37 +11,37 @@ class TurningOnWinch(State):
         self.name = 'Turning on Winch'
     def run(self, event):
         #turn on motor using stepper motor module
-        #start timer(winch_timer)
+        timer.sleep(winch_timer) #start timer(winch_timer)
         return 'winchtimerexpired'
     def entry(self, event):
-        return
+        return 0
     def exit(self, event):
-        return
+        return 0
 
 class UnloadingBall(State):
     def __init__(self):
         self.name = 'Unloading Ball'
     def run(self, event):
         #turn on servo using stepper motor module
-        #start timer(servo_wait_timer)
+        timer.sleep(servo_wait_timer)#start timer(servo_wait_timer)
         return 'ServoDone'
     def entry(self, event):
-        return
+        return 0
     def exit(self, event):
-        return
+        return 0
 
 class RetractWinch(State):
     def __init__(self):
         self.name = 'Retracting Winch'
     def run(self, event):
         #turn on motor in reverse direction using stepper motor module
-        #start timer(winch_timer)
+        timer.sleep(winch_timer) #start timer(winch_timer)
         return 'winchtimerexpired'
     def entry(self, event):
-        return
+        return 0
     def exit(self, event):
-        return
-class StateA(State):
+        return 0
+class BallShootingState(State):
     def __init__(self):
         self.name = 'BallShootingState'
 
@@ -71,6 +71,7 @@ class StateA(State):
                 self.next_state = self.turningonwinchstate
             elif ret == 'ServoDone' :
                 self.next_state = self.unloadingballstate
+            return 0
 
         # if a transition has occured
         if self.next_state != self.current_state:
@@ -81,20 +82,8 @@ class StateA(State):
     def entry(self):
         self.current_state = self.initial_state
         self.next_state = self.initial_state
-        return
+        return 1
 
     def exit(self):
         # stop actuating
-        return
-
-# HSM - F
-#      |_ A
-#         |_ 1
-#         |_ 2
-#         |_ 3
-#      |_ B
-#      |_ C
-
-## Step 1. Create bottom most states first (1, 2, 3)
-
-
+        return 0
