@@ -8,15 +8,14 @@ sys.path.append('./motors_py3')
 from motors_py3.Raspi_MotorHAT import Raspi_MotorHAT, Raspi_DCMotor
 
 class MotorController:
+	def __init__(self):
+		self.motor_handler = Raspi_MotorHAT(addr=0x6f)
 
-	def motors_init():
-		motor_handler = Raspi_MotorHAT(addr=0x6f)
-
-	def set_motor_speed(motor_number, speed):
+	def set_motor_speed(self, motor_number, speed):
 		""" Set the speed of one of the 4 dc motors.
 		The three motors are 1, 2, 3, 4.
 		Speed is from -100 to 100."""
-		motor = motor_handler.getMotor(motor_number)
+		motor = self.motor_handler.getMotor(motor_number)
 		
 		#first, choose direction:
 		if speed > 0:
@@ -33,29 +32,29 @@ class MotorController:
 		
 		return
 		
-	def all_motors_stop():
+	def all_motors_stop(self):
 		for motor in [1, 2, 3 , 4]:
-			set_motor_speed(motor,0)
+			self.set_motor_speed(motor,0)
 
 
 if __name__=="__main__":
 	import time
 	print("initializing motor handler")
-	motors_init()
+	mc = MotorController()
 
 
 	print("all motors forward!!!")
 	for motor in [1, 2, 3, 4]:
-		set_motor_speed(motor,100)
+		mc.set_motor_speed(motor,100)
 	time.sleep(1)
 	
 
 	print("all motors backward!!!")
 	for motor in [1, 2, 3, 4]:
-		set_motor_speed(motor,-100)
+		mc.set_motor_speed(motor,-100)
 	time.sleep(1)
 
-	all_motors_stop()
+	mc.all_motors_stop()
 
 """ 
 ________________________________________
