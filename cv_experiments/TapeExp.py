@@ -14,8 +14,8 @@ import os
 from matplotlib import pyplot as plt
 
 def getRandTape(downsample = None):
-    allfiles = os.listdir("targets/")
-    to_load = "targets/" + random.choice(allfiles)
+    allfiles = os.listdir("tape/")
+    to_load = "tape/" + random.choice(allfiles)
     im_out = cv2.imread(to_load,cv2.IMREAD_COLOR)
     
     if downsample:
